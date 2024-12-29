@@ -1,32 +1,32 @@
-import { useState } from "react";
-import { useAuthContext } from "../context/AuthContext";
-import toast from "react-hot-toast";
+import { useState } from "react";	 // React hook, durumları yönetmek için kullanılır.
+import { useAuthContext } from "../context/AuthContext";	// Kimlik doğrulama bağlamını kullanır.
+import toast from "react-hot-toast";	// Kullanıcıya bildirim göstermek için kullanılan kütüphane.
 
 const useLogout = () => {
-	const [loading, setLoading] = useState(false);
-	const { setAuthUser } = useAuthContext();
+	const [loading, setLoading] = useState(false);		// Yükleme durumunu izler.
+	const { setAuthUser } = useAuthContext();			// Kullanıcı bilgisini sıfırlamak için bağlam.
 
 	const logout = async () => {
-		setLoading(true);
+		setLoading(true);		// Yükleme durumunu başlatır.
 		try {
 			const res = await fetch("/api/auth/logout", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
+				method: "POST",	 // HTTP POST isteği.
+				headers: { "Content-Type": "application/json" },	// İstek başlıkları.
 			});
-			const data = await res.json();
+			const data = await res.json();		// API'den dönen yanıtı JSON olarak ayrıştırır.
 			if (data.error) {
-				throw new Error(data.error);
+				throw new Error(data.error);	// Eğer hata varsa bir hata fırlatır.
 			}
 
-			localStorage.removeItem("chat-user");
-			setAuthUser(null);
+			localStorage.removeItem("chat-user");	// Yerel depodaki kullanıcı bilgisini kaldırır.
+			setAuthUser(null);	// Kullanıcı bilgisini sıfırlar.
 		} catch (error) {
-			toast.error(error.message);
+			toast.error(error.message);		// Hata durumunda kullanıcıya bir bildirim gösterir.
 		} finally {
-			setLoading(false);
+			setLoading(false);		// Yükleme durumunu sonlandırır.
 		}
 	};
 
-	return { loading, logout };
+	return { loading, logout };		 // Yükleme durumu ve çıkış fonksiyonunu döner.
 };
 export default useLogout;

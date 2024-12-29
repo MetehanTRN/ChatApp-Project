@@ -1,14 +1,14 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";	// React context ve durum yönetimi için kullanılan modüller.
 
-export const AuthContext = createContext();
+export const AuthContext = createContext();		// Kimlik doğrulama bilgilerini paylaşmak için bir bağlam oluşturur.
 
-// eslint-disable-next-line react-refresh/only-export-components
+// AuthContext'i kullanmak için özel bir hook
 export const useAuthContext = () => {
-	return useContext(AuthContext);
+	return useContext(AuthContext);		// AuthContext'in değerlerine erişir.
 };
 
 export const AuthContextProvider = ({ children }) => {
-	const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("chat-user")) || null);
+	const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("chat-user")) || null);	// Kullanıcı bilgisini yerel depodan alır ve durum olarak saklar.
 
-	return <AuthContext.Provider value={{ authUser, setAuthUser }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ authUser, setAuthUser }}>{children}</AuthContext.Provider>;	{/* Bağlamın değerlerini sağlar. */}	{/* children: Bağlamın tüm alt bileşenleri */}
 };

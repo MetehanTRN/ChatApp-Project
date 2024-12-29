@@ -1,12 +1,12 @@
-import { useSocketContext } from "../../context/SocketContext";
-import useConversation from "../../zustand/useConversation";
+import { useSocketContext } from "../../context/SocketContext";			// Socket bağlamını kullanarak çevrimiçi kullanıcı bilgilerini alır.
+import useConversation from "../../zustand/useConversation";			// Konuşma yönetimi için Zustand store kullanımı.
 
 const Conversation = ({ conversation, lastIdx, emoji }) => {
-	const { selectedConversation, setSelectedConversation } = useConversation();
+	const { selectedConversation, setSelectedConversation } = useConversation();		// Seçili konuşmayı yönetir.
 
-	const isSelected = selectedConversation?._id === conversation._id;
-	const { onlineUsers } = useSocketContext();
-	const isOnline = onlineUsers.includes(conversation._id);
+	const isSelected = selectedConversation?._id === conversation._id;		// Konuşmanın seçili olup olmadığını kontrol eder.
+	const { onlineUsers } = useSocketContext();								// Çevrimiçi kullanıcıları almak için socket bağlamı.
+	const isOnline = onlineUsers.includes(conversation._id);				// Kullanıcının çevrimiçi olup olmadığını kontrol eder.
 
 	return (
 		<>
@@ -14,23 +14,23 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 				className={`flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer
 				${isSelected ? "bg-sky-500" : ""}
 			`}
-				onClick={() => setSelectedConversation(conversation)}
+				onClick={() => setSelectedConversation(conversation)}		// Konuşma seçildiğinde çağrılır.
 			>
-				<div className={`avatar ${isOnline ? "online" : ""}`}>
+				<div className={`avatar ${isOnline ? "online" : ""}`}>		{/* Çevrimiçi durumu gösteren avatar */}
 					<div className='w-12 rounded-full'>
-						<img src={conversation.profilePic} alt='user avatar' />
+						<img src={conversation.profilePic} alt='user avatar' />		{/* Kullanıcı avatarı */}
 					</div>
 				</div>
 
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-3 justify-between'>
-						<p className='font-bold text-gray-200'>{conversation.fullName}</p>
-						<span className='text-xl'>{emoji}</span>
+						<p className='font-bold text-gray-200'>{conversation.fullName}</p>	{/* Kullanıcı adı */}
+						<span className='text-xl'>{emoji}</span>	{/* Konuşmaya özel emoji */}
 					</div>
 				</div>
 			</div>
 
-			{!lastIdx && <div className='divider my-0 py-0 h-1' />}
+			{!lastIdx && <div className='divider my-0 py-0 h-1' />}	{/* Konuşmalar arasında ayırıcı */}
 		</>
 	);
 };

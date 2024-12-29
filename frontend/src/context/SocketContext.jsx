@@ -1,41 +1,45 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { useAuthContext } from "./AuthContext";
-import io from "socket.io-client";
+import { createContext, useState, useEffect, useContext } from "react";		// React bağlamı ve durum yönetimi için kullanılan modüller.
+import { useAuthContext } from "./AuthContext";		// Kimlik doğrulama bağlamını kullanır.
+import io from "socket.io-client";		// Socket.IO istemcisi.
 
-const SocketContext = createContext();
+const SocketContext = createContext();	// Socket.IO bilgilerini paylaşmak için bir bağlam oluşturur.	
 
+// SocketContext'i kullanmak için özel bir hook
 export const useSocketContext = () => {
-	return useContext(SocketContext);
+	return useContext(SocketContext);	// SocketContext'in değerlerine erişir.
 };
 
 export const SocketContextProvider = ({ children }) => {
-	const [socket, setSocket] = useState(null);
-	const [onlineUsers, setOnlineUsers] = useState([]);
-	const { authUser } = useAuthContext();
+	const [socket, setSocket] = useState(null);				// Socket nesnesini saklar.
+	const [onlineUsers, setOnlineUsers] = useState([]);		// Çevrimiçi kullanıcıların listesini saklar.
+	const { authUser } = useAuthContext();					// Oturum açmış kullanıcının bilgilerini alır.
 
 	useEffect(() => {
 		if (authUser) {
+			// Kullanıcı oturum açtıysa Socket.IO bağlantısını başlatır.
 			const socket = io("https://chat-app-yt.onrender.com", {
 				query: {
-					userId: authUser._id,
+					userId: authUser._id,	// Socket.IO bağlantısına kullanıcı kimliğini ekler.
 				},
 			});
 
-			setSocket(socket);
+			setSocket(socket);		// Socket nesnesini duruma kaydeder.
 
-			// socket.on() is used to listen to the events. can be used both on client and server side
+			// Çevrimiçi kullanıcıların listesini almak için olay dinleyicisi ekler.
 			socket.on("getOnlineUsers", (users) => {
-				setOnlineUsers(users);
+				setOnlineUsers(users);		// Çevrimiçi kullanıcıları günceller.
 			});
 
+			// Temizlik fonksiyonu: Bileşen kaldırıldığında socket bağlantısını kapatır.
 			return () => socket.close();
 		} else {
+			// Kullanıcı oturum açmadıysa socket'i kapatır ve sıfırlar.
 			if (socket) {
 				socket.close();
 				setSocket(null);
 			}
 		}
-	}, [authUser]);
+	}, [authUser]);	// authUser değiştiğinde efekt yeniden çalışır.
 
-	return <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>;
+	return <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>;	{/* Bağlam değerlerini sağlar. */}	{/* children: Bağlamın tüm alt bileşenleri */}
 };

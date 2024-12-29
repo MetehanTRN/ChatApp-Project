@@ -1,59 +1,62 @@
+/* Tailwind CSS'in temel, bileşen ve yardımcı sınıflarını ekler */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Sayfa genelinde kullanılan arka plan tasarımı */
 body {
-	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
+	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");	/* Şeffaf siyah geçiş ve arka plan resmi */
+	background-repeat: no-repeat;	/* Arka plan tekrarlanmıyor */
+	background-size: cover;			/* Arka plan resmi tüm alanı kaplıyor */
+	background-position: center;	/* Arka plan resmi ortalanıyor */
 }
 
-/* dark mode looking scrollbar */
+/* Tarayıcı kaydırma çubuğu stilleri */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 8px;	/* Kaydırma çubuğu genişliği */
 }
 
 ::-webkit-scrollbar-track {
-	background: #555;
+	background: #555;	/* Kaydırma çubuğu arka planı */
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #121212;
-	border-radius: 5px;
+	background: #121212;	/* Kaydırma çubuğu başparmağı rengi */
+	border-radius: 5px;		 /* Kenarları yuvarlatır */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: #242424;
+	background: #242424;	/* Üzerine gelindiğinde kaydırma çubuğu başparmağı rengi */
 }
 
-/* SHAKE ANIMATION ON HORIZONTAL DIRECTION */
+/* Titreşim animasyonu için shake sınıfı */
 .shake {
-	animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.2s both;
-	transform: translate3d(0, 0, 0);
-	backface-visibility: hidden;
-	perspective: 1000px;
+	animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.2s both;	 /* Titreşim animasyonu */
+	transform: translate3d(0, 0, 0);	/* 3D dönüşüm sıfırlama */
+	backface-visibility: hidden;		/* Arkada görünüm gizlenir */
+	perspective: 1000px;				/* 3D perspektif ekler */	
 }
 
+/* Titreşim animasyonu tanımı */
 @keyframes shake {
 	10%,
 	90% {
-		transform: translate3d(-1px, 0, 0);
+		transform: translate3d(-1px, 0, 0);		/* Hafif sola kayma */
 	}
 
 	20%,
 	80% {
-		transform: translate3d(2px, 0, 0);
+		transform: translate3d(2px, 0, 0);		/* Hafif sağa kayma */
 	}
 
 	30%,
 	50%,
 	70% {
-		transform: translate3d(-4px, 0, 0);
+		transform: translate3d(-4px, 0, 0);		 /* Daha fazla sola kayma */
 	}
 
 	40%,
 	60% {
-		transform: translate3d(4px, 0, 0);
+		transform: translate3d(4px, 0, 0);		 /* Daha fazla sağa kayma */
 	}
 }

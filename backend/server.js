@@ -1,35 +1,41 @@
-import path from "path";
-import express from "express";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+import path from "path";										// Dosya ve dizin yollarını çalıştırmak için kullanılan Node.js modülü.
+import express from "express";									// Express.js, web uygulamaları için kullanılan bir çerçevedir.
+import dotenv from "dotenv";									// Ortam değişkenlerini kullanmak için kullanılan bir modül.
+import cookieParser from "cookie-parser";						// HTTP çerezlerini ayrıştırmak için kullanılan bir middleware.
 
-import authRoutes from "./routes/auth.routes.js";
-import messageRoutes from "./routes/message.routes.js";
-import userRoutes from "./routes/user.routes.js";
+import authRoutes from "./routes/auth.routes.js";				// Kimlik doğrulama rotalarını içe aktarır.
+import messageRoutes from "./routes/message.routes.js";			// Mesaj rotalarını içe aktarır.
+import userRoutes from "./routes/user.routes.js";				// Kullanıcı rotalarını içe aktarır.
 
-import connectToMongoDB from "./db/connectToMongoDB.js";
-import { app, server } from "./socket/socket.js";
+import connectToMongoDB from "./db/connectToMongoDB.js";		// MongoDB bağlantısını başlatmak için bir işlev.
+import { app, server } from "./socket/socket.js";				// Socket.IO sunucusu ve uygulamasını içe aktarır.
 
-dotenv.config();
+dotenv.config();	// Ortam değişkenlerini .env dosyasından yükler.
 
-const __dirname = path.resolve();
-// PORT should be assigned after calling dotenv.config() because we need to access the env variables. Didn't realize while recording the video. Sorry for the confusion.
-const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();		// __dirname kullanımı için path.resolve() kullanılır.
 
-app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
-app.use(cookieParser());
+// PORT tanımı, dotenv.config() çağrıldıktan sonra yapılmalıdır.
+const PORT = process.env.PORT || 5000;	// PORT değeri ortam değişkenlerinden alınır, yoksa 5000 olarak ayarlanır.
 
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
-app.use("/api/users", userRoutes);
+// JSON verilerini ayrıştırmak için middleware
+app.use(express.json()); 	// Gelen isteklerdeki JSON yüklerini ayrıştırır (req.body ile erişim sağlar).
+app.use(cookieParser());	// Çerezleri ayrıştırır.
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// Uygulama rotalarını tanımlar
+app.use("/api/auth", authRoutes);			// Kimlik doğrulama rotaları.
+app.use("/api/messages", messageRoutes);	// Mesaj rotaları.
+app.use("/api/users", userRoutes);			// Kullanıcı rotaları.
 
+// Statik dosyaları sunar
+app.use(express.static(path.join(__dirname, "/frontend/dist")));	// "frontend/dist" dizinindeki dosyaları statik olarak sunar.
+
+// Tüm GET istekleri için tek sayfa uygulaması desteği
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+	res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));	 // Ana HTML dosyasını döner.
 });
 
+// Sunucuyu başlatır
 server.listen(PORT, () => {
-	connectToMongoDB();
+	connectToMongoDB();		// MongoDB'ye bağlanır.
 	console.log(`Server Running on port ${PORT}`);
 });

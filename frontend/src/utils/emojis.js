@@ -55,6 +55,8 @@ export const funEmojis = [
 	"🧘",
 ];
 
+// Rastgele bir emoji döndüren işlev
+// Eğlenceli emoji listesinden bir öğe seçer ve geri döner.
 export const getRandomEmoji = () => {
-	return funEmojis[Math.floor(Math.random() * funEmojis.length)];
+	return funEmojis[Math.floor(Math.random() * funEmojis.length)];		// Rastgele bir indeks hesaplar ve o indeksteki emojiyi döner.
 };
