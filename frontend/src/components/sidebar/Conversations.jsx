@@ -4,6 +4,8 @@ import Conversation from "./Conversation";								// Tekil konuşma bileşeni.
 
 const Conversations = () => {
 	const { loading, conversations } = useGetConversations();			// Konuşmaları ve yükleme durumunu almak için hook kullanımı.
+	
+	console.log("Conversations List:", conversations); // Buraya ekleyin
 	return (
 		<div className='py-2 flex flex-col overflow-auto'>				{/* Konuşmaların kapsayıcı konteyneri */}
 			

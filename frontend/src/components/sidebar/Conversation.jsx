@@ -8,6 +8,8 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 	const { onlineUsers } = useSocketContext();								// Çevrimiçi kullanıcıları almak için socket bağlamı.
 	const isOnline = onlineUsers.includes(conversation._id);				// Kullanıcının çevrimiçi olup olmadığını kontrol eder.
 
+	console.log("Conversation Props:", conversation);
+	
 	return (
 		<>
 			<div

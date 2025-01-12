@@ -7,7 +7,7 @@ const app = express();		// Yeni bir Express uygulaması oluşturulur.
 const server = http.createServer(app);	// Express uygulamasını temel alan bir HTTP sunucusu oluşturulur.
 const io = new Server(server, {
 	cors: {
-		origin: ["http://localhost:3000"],	// Hangi alan adlarının bu sunucuya erişebileceğini tanımlar.
+		origin: ["http://localhost:5000"],	// Hangi alan adlarının bu sunucuya erişebileceğini tanımlar.
 		methods: ["GET", "POST"],	// İzin verilen HTTP metodları.
 	},
 });

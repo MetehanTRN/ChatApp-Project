@@ -14,6 +14,9 @@ const useGetConversations = () => {
 				if (data.error) {
 					throw new Error(data.error);	// Eğer hata varsa bir hata fırlatır.
 				}
+
+				console.log("Fetched Conversations Data:", data);
+				
 				setConversations(data);		// Alınan konuşmaları duruma kaydeder.
 			} catch (error) {
 				toast.error(error.message);		 // Hata durumunda kullanıcıya bir bildirim gösterir.
